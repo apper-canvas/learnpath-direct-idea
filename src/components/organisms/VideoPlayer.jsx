@@ -26,12 +26,12 @@ const VideoPlayer = ({ videoUrl, title, onComplete }) => {
       setDuration(video.duration);
     };
 
-    const handleTimeUpdate = () => {
+const handleTimeUpdate = () => {
       setCurrentTime(video.currentTime);
       setProgress((video.currentTime / video.duration) * 100);
       
       // Check if video is near completion (95%)
-      if (video.currentTime / video.duration &gt;= 0.95 && onComplete) {
+      if (video.currentTime / video.duration >= 0.95 && onComplete) {
         onComplete();
       }
     };
