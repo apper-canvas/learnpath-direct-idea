@@ -1,6 +1,10 @@
+import React from 'react';
 import { motion } from 'framer-motion';
-import ApperIcon from './ApperIcon';
-import ProgressRing from './ProgressRing';
+import ApperIcon from '@/components/ApperIcon';
+import ProgressRing from '@/components/atoms/ProgressRing';
+import Tag from '@/components/atoms/Tag';
+import Button from '@/components/atoms/Button';
+import Heading from '@/components/atoms/Heading';
 
 const CourseCard = ({ course, progress, onClick }) => {
   const calculateProgress = () => {
@@ -12,12 +16,12 @@ const CourseCard = ({ course, progress, onClick }) => {
     return totalLessons > 0 ? (completedLessons / totalLessons) * 100 : 0;
   };
 
-  const getDifficultyColor = (difficulty) => {
+  const getDifficultyVariant = (difficulty) => {
     switch (difficulty) {
-      case 'beginner': return 'text-success bg-success/10';
-      case 'intermediate': return 'text-warning bg-warning/10';
-      case 'advanced': return 'text-error bg-error/10';
-      default: return 'text-gray-600 bg-gray-100';
+      case 'beginner': return 'success';
+      case 'intermediate': return 'warning';
+      case 'advanced': return 'error';
+      default: return 'gray';
     }
   };
 
@@ -45,17 +49,17 @@ const CourseCard = ({ course, progress, onClick }) => {
       {/* Course Info */}
       <div className="space-y-3">
         <div className="flex flex-wrap items-center gap-2">
-          <span className={`px-2 py-1 rounded-full text-xs font-medium ${getDifficultyColor(course.difficulty)}`}>
+          <Tag variant={getDifficultyVariant(course.difficulty)}>
             {course.difficulty.charAt(0).toUpperCase() + course.difficulty.slice(1)}
-          </span>
-          <span className="px-2 py-1 bg-primary/10 text-primary rounded-full text-xs font-medium">
+          </Tag>
+          <Tag variant="primary">
             {course.category}
-          </span>
+          </Tag>
         </div>
 
-        <h3 className="text-lg font-heading font-semibold text-gray-900 leading-tight break-words">
+        <Heading level={3} className="text-lg leading-tight break-words line-clamp-2">
           {course.title}
-        </h3>
+        </Heading>
 
         <p className="text-gray-600 text-sm leading-relaxed break-words line-clamp-2">
           {course.description}
@@ -100,21 +104,16 @@ const CourseCard = ({ course, progress, onClick }) => {
         )}
 
         {/* Action Button */}
-        <motion.button
-          whileHover={{ scale: 1.05, brightness: 1.1 }}
-          whileTap={{ scale: 0.95 }}
+        <Button
           onClick={(e) => {
             e.stopPropagation();
             onClick();
           }}
-          className={`w-full py-2.5 px-4 rounded-lg font-medium transition-all duration-200 ${
-            isEnrolled
-              ? 'bg-success text-white hover:bg-success/90'
-              : 'bg-primary text-white hover:bg-primary/90'
-          }`}
+          className="w-full"
+          variant={isEnrolled ? 'success' : 'primary'}
         >
           {isEnrolled ? 'Continue Learning' : 'View Course'}
-        </motion.button>
+        </Button>
       </div>
     </motion.div>
   );

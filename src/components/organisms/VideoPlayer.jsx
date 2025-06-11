@@ -1,6 +1,7 @@
-import { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import ApperIcon from './ApperIcon';
+import ApperIcon from '@/components/ApperIcon';
+import Button from '@/components/atoms/Button';
 
 const VideoPlayer = ({ videoUrl, title, onComplete }) => {
   const [isPlaying, setIsPlaying] = useState(false);
@@ -30,7 +31,7 @@ const VideoPlayer = ({ videoUrl, title, onComplete }) => {
       setProgress((video.currentTime / video.duration) * 100);
       
       // Check if video is near completion (95%)
-      if (video.currentTime / video.duration >= 0.95 && onComplete) {
+      if (video.currentTime / video.duration &gt;= 0.95 && onComplete) {
         onComplete();
       }
     };
@@ -40,14 +41,20 @@ const VideoPlayer = ({ videoUrl, title, onComplete }) => {
       if (onComplete) onComplete();
     };
 
+    const handleFullscreenChange = () => {
+        setIsFullscreen(!!document.fullscreenElement);
+    };
+
     video.addEventListener('loadedmetadata', handleLoadedMetadata);
     video.addEventListener('timeupdate', handleTimeUpdate);
     video.addEventListener('ended', handleEnded);
+    document.addEventListener('fullscreenchange', handleFullscreenChange);
 
     return () => {
       video.removeEventListener('loadedmetadata', handleLoadedMetadata);
       video.removeEventListener('timeupdate', handleTimeUpdate);
       video.removeEventListener('ended', handleEnded);
+      document.removeEventListener('fullscreenchange', handleFullscreenChange);
     };
   }, [onComplete]);
 
@@ -106,7 +113,6 @@ const VideoPlayer = ({ videoUrl, title, onComplete }) => {
         document.exitFullscreen();
       }
     }
-    setIsFullscreen(!isFullscreen);
   };
 
   const formatTime = (time) => {
@@ -135,7 +141,7 @@ const VideoPlayer = ({ videoUrl, title, onComplete }) => {
         src={videoUrl}
         className="video-player w-full h-full object-cover"
         onClick={togglePlay}
-        poster="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='450' viewBox='0 0 800 450'%3E%3Crect width='800' height='450' fill='%23f3f4f6'/%3E%3Ctext x='400' y='225' text-anchor='middle' dy='.3em' font-family='Arial, sans-serif' font-size='20' fill='%236b7280'%3E{title}%3C/text%3E%3C/svg%3E"
+        poster={`data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='450' viewBox='0 0 800 450'%3E%3Crect width='800' height='450' fill='%23f3f4f6'/%3E%3Ctext x='400' y='225' text-anchor='middle' dy='.3em' font-family='Arial, sans-serif' font-size='20' fill='%236b7280'%3E${encodeURIComponent(title)}%3C/text%3E%3C/svg%3E`}
       />
       
       {/* Play overlay for initial state */}
@@ -179,23 +185,30 @@ const VideoPlayer = ({ videoUrl, title, onComplete }) => {
         {/* Controls Row */}
         <div className="flex items-center justify-between text-white">
           <div className="flex items-center gap-4">
-            <button
+            <Button
               onClick={togglePlay}
-              className="p-2 hover:bg-white/20 rounded-full transition-colors"
+              className="p-2"
+              variant="ghost"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
             >
-              <ApperIcon name={isPlaying ? "Pause" : "Play"} size={20} />
-            </button>
+              <ApperIcon name={isPlaying ? "Pause" : "Play"} size={20} className="text-white" />
+            </Button>
 
             <div className="flex items-center gap-2">
-              <button
+              <Button
                 onClick={toggleMute}
-                className="p-1 hover:bg-white/20 rounded transition-colors"
+                className="p-1"
+                variant="ghost"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
               >
                 <ApperIcon 
                   name={isMuted ? "VolumeX" : volume > 0.5 ? "Volume2" : "Volume1"} 
                   size={16} 
+                  className="text-white"
                 />
-              </button>
+              </Button>
               <input
                 type="range"
                 min="0"
@@ -226,12 +239,15 @@ const VideoPlayer = ({ videoUrl, title, onComplete }) => {
               <option value={2}>2x</option>
             </select>
 
-            <button
+            <Button
               onClick={toggleFullscreen}
-              className="p-2 hover:bg-white/20 rounded-full transition-colors"
+              className="p-2"
+              variant="ghost"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
             >
-              <ApperIcon name={isFullscreen ? "Minimize" : "Maximize"} size={20} />
-            </button>
+              <ApperIcon name={isFullscreen ? "Minimize" : "Maximize"} size={20} className="text-white" />
+            </Button>
           </div>
         </div>
       </motion.div>

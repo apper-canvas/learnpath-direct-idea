@@ -1,6 +1,8 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import ApperIcon from './ApperIcon';
+import ApperIcon from '@/components/ApperIcon';
+import Heading from '@/components/atoms/Heading';
+import Button from '@/components/atoms/Button';
 
 const QuizComponent = ({ quiz, userScore, onComplete }) => {
   const [currentQuestion, setCurrentQuestion] = useState(0);
@@ -76,11 +78,11 @@ const QuizComponent = ({ quiz, userScore, onComplete }) => {
             transition={{ delay: 0.4 }}
             className="quiz-result"
           >
-            <h3 className={`text-2xl font-heading font-bold mb-2 ${
+            <Heading level={3} className={`text-2xl mb-2 ${
               quizScore.passed ? 'text-success' : 'text-error'
             }`}>
               {quizScore.passed ? 'Congratulations!' : 'Keep Trying!'}
-            </h3>
+            </Heading>
             
             <p className="text-gray-600 mb-4">
               You scored {quizScore.score}% ({quizScore.correctAnswers}/{quizScore.totalQuestions} correct)
@@ -94,14 +96,9 @@ const QuizComponent = ({ quiz, userScore, onComplete }) => {
             </p>
             
             {!quizScore.passed && (
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                onClick={resetQuiz}
-                className="px-6 py-2 bg-primary text-white rounded-lg font-medium"
-              >
+              <Button onClick={resetQuiz} variant="primary">
                 Try Again
-              </motion.button>
+              </Button>
             )}
           </motion.div>
         </div>
@@ -119,9 +116,9 @@ const QuizComponent = ({ quiz, userScore, onComplete }) => {
       >
         <div className="flex items-center justify-between">
           <div>
-            <h3 className="text-lg font-heading font-semibold text-gray-900 mb-2">
+            <Heading level={3} className="text-lg font-semibold mb-2">
               Quiz Completed
-            </h3>
+            </Heading>
             <p className="text-gray-600">
               Previous score: {userScore.score}% 
               <span className={`ml-2 ${userScore.passed ? 'text-success' : 'text-error'}`}>
@@ -136,14 +133,9 @@ const QuizComponent = ({ quiz, userScore, onComplete }) => {
               <ApperIcon name={userScore.passed ? "CheckCircle" : "XCircle"} size={24} />
             </div>
             {!userScore.passed && (
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                onClick={resetQuiz}
-                className="px-4 py-2 bg-primary text-white rounded-lg font-medium"
-              >
+              <Button onClick={resetQuiz} variant="primary">
                 Retake Quiz
-              </motion.button>
+              </Button>
             )}
           </div>
         </div>
@@ -159,9 +151,9 @@ const QuizComponent = ({ quiz, userScore, onComplete }) => {
     >
       <div className="mb-6">
         <div className="flex items-center justify-between mb-4">
-          <h3 className="text-lg font-heading font-semibold text-gray-900">
+          <Heading level={3} className="text-lg font-semibold">
             Quiz: Lesson Assessment
-          </h3>
+          </Heading>
           <span className="text-sm text-gray-500">
             {currentQuestion + 1} of {quiz.questions.length}
           </span>
@@ -186,22 +178,23 @@ const QuizComponent = ({ quiz, userScore, onComplete }) => {
           exit={{ opacity: 0, x: -20 }}
           transition={{ duration: 0.3 }}
         >
-          <h4 className="text-lg font-medium text-gray-900 mb-6 break-words">
+          <Heading level={4} className="text-lg font-medium mb-6 break-words">
             {quiz.questions[currentQuestion].question}
-          </h4>
+          </Heading>
 
           <div className="space-y-3 mb-8">
             {quiz.questions[currentQuestion].options.map((option, index) => (
-              <motion.button
+              <Button
                 key={index}
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
                 onClick={() => handleAnswerSelect(currentQuestion, index)}
-                className={`w-full p-4 text-left rounded-lg border-2 transition-all duration-200 break-words ${
+                className={`w-full p-4 text-left border-2 ${
                   selectedAnswers[currentQuestion] === index
                     ? 'border-primary bg-primary/5 text-primary'
                     : 'border-gray-200 hover:border-gray-300'
                 }`}
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                variant="ghost" // Override default Button styling for quiz answers
               >
                 <div className="flex items-center gap-3">
                   <div className={`w-4 h-4 rounded-full border-2 flex items-center justify-center ${
@@ -215,7 +208,7 @@ const QuizComponent = ({ quiz, userScore, onComplete }) => {
                   </div>
                   <span>{option}</span>
                 </div>
-              </motion.button>
+              </Button>
             ))}
           </div>
         </motion.div>
@@ -223,35 +216,38 @@ const QuizComponent = ({ quiz, userScore, onComplete }) => {
 
       {/* Navigation */}
       <div className="flex items-center justify-between">
-        <button
+        <Button
           onClick={() => setCurrentQuestion(Math.max(0, currentQuestion - 1))}
           disabled={currentQuestion === 0}
-          className="flex items-center gap-2 px-4 py-2 text-gray-600 hover:text-gray-900 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+          variant="ghost"
+          icon={ApperIcon}
+          iconName="ChevronLeft"
+          iconSize={16}
         >
-          <ApperIcon name="ChevronLeft" size={16} />
           Previous
-        </button>
+        </Button>
 
         <div className="flex items-center gap-3">
           {currentQuestion < quiz.questions.length - 1 ? (
-            <button
+            <Button
               onClick={() => setCurrentQuestion(currentQuestion + 1)}
               disabled={!selectedAnswers.hasOwnProperty(currentQuestion)}
-              className="flex items-center gap-2 px-6 py-2 bg-primary text-white rounded-lg font-medium hover:bg-primary/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              variant="primary"
+              icon={ApperIcon}
+              iconName="ChevronRight"
+              iconSize={16}
+              iconPosition="right"
             >
               Next
-              <ApperIcon name="ChevronRight" size={16} />
-            </button>
+            </Button>
           ) : (
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
+            <Button
               onClick={handleSubmitQuiz}
               disabled={!allQuestionsAnswered}
-              className="px-6 py-2 bg-success text-white rounded-lg font-medium hover:bg-success/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              variant="success"
             >
               Submit Quiz
-            </motion.button>
+            </Button>
           )}
         </div>
       </div>

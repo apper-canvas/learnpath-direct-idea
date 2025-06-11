@@ -1,3 +1,4 @@
+import React from 'react';
 import { motion } from 'framer-motion';
 
 const ProgressRing = ({ progress, size = 48, strokeWidth = 4 }) => {

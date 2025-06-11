@@ -1,11 +1,16 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { toast } from 'react-toastify';
-import ApperIcon from '../components/ApperIcon';
-import { courseService, userProgressService } from '../services';
+import ApperIcon from '@/components/ApperIcon';
+import Heading from '@/components/atoms/Heading';
+import Button from '@/components/atoms/Button';
+import Input from '@/components/atoms/Input';
+import Select from '@/components/atoms/Select';
+import NotesList from '@/components/organisms/NotesList';
+import { courseService, userProgressService } from '@/services';
 
-const Notes = () => {
+const NotesPage = () => {
   const navigate = useNavigate();
   const [courses, setCourses] = useState([]);
   const [userProgress, setUserProgress] = useState([]);
@@ -70,9 +75,13 @@ const Notes = () => {
     return allNotes.sort((a, b) => new Date(b.lastModified) - new Date(a.lastModified));
   };
 
-  const getEnrolledCourses = () => {
+  const getEnrolledCourseOptions = () => {
     const enrolledCourseIds = userProgress.map(p => p.courseId);
-    return courses.filter(course => enrolledCourseIds.includes(course.id));
+    const enrolledCourses = courses.filter(course => enrolledCourseIds.includes(course.id));
+    return [{ value: 'all', label: 'All Courses' }, ...enrolledCourses.map(course => ({
+      value: course.id,
+      label: course.title
+    }))];
   };
 
   const updateNote = async (courseId, lessonId, newContent) => {
@@ -131,6 +140,11 @@ const Notes = () => {
     return matchesSearch && matchesCourse;
   });
 
+  const handleClearFilters = () => {
+    setSearchTerm('');
+    setSelectedCourse('all');
+  };
+
   if (loading) {
     return (
       <div className="p-6 space-y-6">
@@ -162,26 +176,22 @@ const Notes = () => {
       <div className="p-6">
         <div className="text-center py-12">
           <ApperIcon name="AlertCircle" className="w-16 h-16 text-error mx-auto mb-4" />
-          <h3 className="text-lg font-medium text-gray-900 mb-2">Failed to Load Notes</h3>
+          <Heading level={3} className="text-lg font-medium mb-2">Failed to Load Notes</Heading>
           <p className="text-gray-500 mb-4">{error}</p>
-          <button
-            onClick={() => window.location.reload()}
-            className="px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors"
-          >
+          <Button onClick={() => window.location.reload()} variant="primary">
             Try Again
-          </button>
+          </Button>
         </div>
       </div>
     );
   }
 
-  const enrolledCourses = getEnrolledCourses();
   const allNotes = getAllNotes();
 
   return (
     <div className="p-6 max-w-4xl mx-auto">
       <div className="mb-8">
-        <h1 className="text-2xl font-heading font-bold text-gray-900 mb-2">My Notes</h1>
+        <Heading level={1} className="text-2xl mb-2">My Notes</Heading>
         <p className="text-gray-600">Review and manage your lesson notes</p>
       </div>
 
@@ -193,39 +203,30 @@ const Notes = () => {
             size={20} 
             className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" 
           />
-          <input
+          <Input
             type="text"
             placeholder="Search notes..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full pl-10 pr-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-all duration-200"
+            className="pl-10 pr-4 py-2.5"
           />
         </div>
 
         <div className="flex flex-wrap gap-4 items-center">
-          <select
+          <Select
             value={selectedCourse}
             onChange={(e) => setSelectedCourse(e.target.value)}
-            className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary"
-          >
-            <option value="all">All Courses</option>
-            {enrolledCourses.map(course => (
-              <option key={course.id} value={course.id}>
-                {course.title}
-              </option>
-            ))}
-          </select>
+            options={getEnrolledCourseOptions()}
+          />
 
           {(searchTerm || selectedCourse !== 'all') && (
-            <button
-              onClick={() => {
-                setSearchTerm('');
-                setSelectedCourse('all');
-              }}
-              className="px-4 py-2 text-gray-600 hover:text-gray-800 transition-colors"
+            <Button
+              onClick={handleClearFilters}
+              variant="ghost"
+              className="px-4 py-2"
             >
               Clear Filters
-            </button>
+            </Button>
           )}
 
           <div className="ml-auto text-sm text-gray-500">
@@ -236,86 +237,26 @@ const Notes = () => {
 
       {/* Notes List */}
       {allNotes.length === 0 ? (
-        <div className="text-center py-12">
-          <motion.div
-            animate={{ y: [0, -10, 0] }}
-            transition={{ repeat: Infinity, duration: 3 }}
-          >
-            <ApperIcon name="StickyNote" className="w-16 h-16 text-gray-300 mx-auto" />
-          </motion.div>
-          <h3 className="mt-4 text-lg font-medium text-gray-900">No notes yet</h3>
-          <p className="mt-2 text-gray-500">Start taking notes during lessons to see them here</p>
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            onClick={() => navigate('/browse')}
-            className="mt-4 px-6 py-2 bg-primary text-white rounded-lg font-medium"
-          >
-            Browse Courses
-          </motion.button>
-        </div>
+        <NotesList
+          notes={[]}
+          onBrowseCourses={() => navigate('/browse')}
+        />
       ) : filteredNotes.length === 0 ? (
         <div className="text-center py-12">
           <ApperIcon name="Search" className="w-16 h-16 text-gray-300 mx-auto" />
-          <h3 className="mt-4 text-lg font-medium text-gray-900">No matching notes</h3>
+          <Heading level={3} className="mt-4 text-lg font-medium">No matching notes</Heading>
           <p className="mt-2 text-gray-500">Try adjusting your search criteria</p>
         </div>
       ) : (
-        <div className="space-y-6">
-          {filteredNotes.map((note, index) => (
-            <motion.div
-              key={note.id}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.05 }}
-              className="bg-white rounded-xl p-6 shadow-sm border border-gray-100 hover:shadow-md transition-shadow"
-            >
-              <div className="flex items-start justify-between mb-4">
-                <div className="flex-1 min-w-0">
-                  <h3 className="font-semibold text-gray-900 break-words">
-                    {note.lessonTitle}
-                  </h3>
-                  <p className="text-sm text-gray-500 break-words">
-                    {note.courseName}
-                  </p>
-                  <p className="text-xs text-gray-400 mt-1">
-                    Last modified: {new Date(note.lastModified).toLocaleDateString()}
-                  </p>
-                </div>
-                
-                <div className="flex items-center gap-2 ml-4">
-                  <button
-                    onClick={() => navigate(`/course/${note.courseId}/lesson/${note.lessonId}`)}
-                    className="p-2 text-gray-400 hover:text-primary transition-colors"
-                    title="Go to lesson"
-                  >
-                    <ApperIcon name="ExternalLink" size={16} />
-                  </button>
-                  <button
-                    onClick={() => deleteNote(note.courseId, note.lessonId)}
-                    className="p-2 text-gray-400 hover:text-error transition-colors"
-                    title="Delete note"
-                  >
-                    <ApperIcon name="Trash2" size={16} />
-                  </button>
-                </div>
-              </div>
-              
-              <div className="bg-gray-50 rounded-lg p-4">
-                <textarea
-                  value={note.content}
-                  onChange={(e) => updateNote(note.courseId, note.lessonId, e.target.value)}
-                  className="w-full bg-transparent border-none resize-none focus:outline-none text-gray-700 leading-relaxed"
-                  rows={Math.max(3, note.content.split('\n').length)}
-                  placeholder="Your notes..."
-                />
-              </div>
-            </motion.div>
-          ))}
-        </div>
+        <NotesList
+          notes={filteredNotes}
+          onUpdateNote={updateNote}
+          onDeleteNote={deleteNote}
+          onGoToLesson={(courseId, lessonId) => navigate(`/course/${courseId}/lesson/${lessonId}`)}
+        />
       )}
     </div>
   );
 };
 
-export default Notes;
+export default NotesPage;

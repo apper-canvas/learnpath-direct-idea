@@ -1,69 +1,68 @@
-import Home from '../pages/Home';
-import Dashboard from '../pages/Dashboard';
-import BrowseCourses from '../pages/BrowseCourses';
-import CourseDetail from '../pages/CourseDetail';
-import LessonView from '../pages/LessonView';
-import Progress from '../pages/Progress';
-import Notes from '../pages/Notes';
-import NotFound from '../pages/NotFound';
+import HomePage from '@/components/pages/HomePage';
+import DashboardPage from '@/components/pages/DashboardPage';
+import BrowseCoursesPage from '@/components/pages/BrowseCoursesPage';
+import CourseDetailPage from '@/components/pages/CourseDetailPage';
+import LessonViewPage from '@/components/pages/LessonViewPage';
+import ProgressPage from '@/components/pages/ProgressPage';
+import NotesPage from '@/components/pages/NotesPage';
+import NotFoundPage from '@/components/pages/NotFoundPage';
 
 export const routes = {
   home: {
     id: 'home',
     label: 'Home',
-    path: '/',
+path: '/',
     icon: 'Home',
-    component: Home
+    component: HomePage
   },
   dashboard: {
     id: 'dashboard',
     label: 'Dashboard',
-    path: '/dashboard',
+path: '/dashboard',
     icon: 'LayoutDashboard',
-    component: Dashboard
+    component: DashboardPage
   },
   browseCourses: {
     id: 'browseCourses',
     label: 'Browse Courses',
-    path: '/browse',
+path: '/browse',
     icon: 'BookOpen',
-    component: BrowseCourses
+    component: BrowseCoursesPage
   },
   courseDetail: {
     id: 'courseDetail',
     label: 'Course Detail',
-    path: '/course/:id',
+path: '/course/:id',
     icon: 'Book',
-    component: CourseDetail,
+    component: CourseDetailPage,
     hidden: true
   },
   lessonView: {
     id: 'lessonView',
-    label: 'Lesson View',
+label: 'Lesson View',
     path: '/course/:courseId/lesson/:lessonId',
-    icon: 'Play',
-    component: LessonView,
+    component: LessonViewPage,
     hidden: true
   },
   progress: {
     id: 'progress',
     label: 'My Progress',
-    path: '/progress',
+path: '/progress',
     icon: 'TrendingUp',
-    component: Progress
+    component: ProgressPage
   },
   notes: {
     id: 'notes',
     label: 'Notes',
-    path: '/notes',
+path: '/notes',
     icon: 'StickyNote',
-    component: Notes
+    component: NotesPage
   },
   notFound: {
     id: 'notFound',
     label: 'Not Found',
-    path: '*',
-    component: NotFound,
+path: '*',
+    component: NotFoundPage,
     hidden: true
   }
 };
