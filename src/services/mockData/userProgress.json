@@ -1,0 +1,43 @@
+[
+  {
+    "id": "1",
+    "courseId": "1",
+    "completedLessons": ["1-1-1", "1-1-2"],
+    "quizScores": {
+      "quiz-1-1": { "score": 85, "passed": true },
+      "quiz-1-2": { "score": 92, "passed": true }
+    },
+    "notes": {
+      "1-1-1": "React is a JavaScript library for building user interfaces. Key concepts: Virtual DOM, Component-based architecture, Declarative programming. Remember that React uses JSX which looks like HTML but is actually JavaScript.",
+      "1-1-2": "Development environment setup notes:\n- Install Node.js and npm\n- Use Create React App for quick setup\n- Install React Developer Tools browser extension\n- Configure VS Code with ES7+ React snippets extension"
+    },
+    "lastAccessed": "2024-01-15T10:30:00Z"
+  },
+  {
+    "id": "2",
+    "courseId": "2",
+    "completedLessons": ["2-1-1"],
+    "quizScores": {
+      "quiz-2-1": { "score": 78, "passed": true }
+    },
+    "notes": {
+      "2-1-1": "Color theory fundamentals:\n- Primary colors: Red, Blue, Yellow\n- Secondary colors: Green, Orange, Purple\n- Color temperature affects emotions\n- Use 60-30-10 rule for color distribution\n- Always check color contrast for accessibility (WCAG AA: 4.5:1 ratio)"
+    },
+    "lastAccessed": "2024-01-14T15:45:00Z"
+  },
+  {
+    "id": "3",
+    "courseId": "3",
+    "completedLessons": ["3-1-1", "3-1-2", "3-2-1"],
+    "quizScores": {
+      "quiz-3-1": { "score": 88, "passed": true },
+      "quiz-3-2": { "score": 91, "passed": true }
+    },
+    "notes": {
+      "3-1-1": "Python setup for data science:\n- Anaconda includes most packages we need\n- Jupyter Notebooks are great for experimentation\n- Virtual environments prevent package conflicts\n- Key libraries: numpy, pandas, matplotlib, seaborn, scikit-learn",
+      "3-1-2": "NumPy array operations:\n- Arrays are faster than Python lists\n- Broadcasting allows operations on different sized arrays\n- Use vectorized operations instead of loops\n- np.random for random number generation",
+      "3-2-1": "Pandas DataFrames:\n- Think of DataFrames as Excel spreadsheets in Python\n- .head() and .tail() for quick data inspection\n- .describe() for statistical summary\n- Handle missing data with .dropna() or .fillna()"
+    },
+    "lastAccessed": "2024-01-16T09:15:00Z"
+  }
+]

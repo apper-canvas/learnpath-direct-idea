@@ -1,0 +1,167 @@
+[
+  {
+    "id": "quiz-1-1",
+    "lessonId": "1-1-1",
+    "passingScore": 70,
+    "questions": [
+      {
+        "question": "What is React primarily used for?",
+        "options": [
+          "Building server-side applications",
+          "Building user interfaces",
+          "Database management",
+          "Network programming"
+        ],
+        "correctAnswer": 1
+      },
+      {
+        "question": "What is the Virtual DOM in React?",
+        "options": [
+          "A physical representation of the DOM",
+          "A JavaScript representation of the real DOM",
+          "A database for storing DOM elements",
+          "A CSS framework"
+        ],
+        "correctAnswer": 1
+      },
+      {
+        "question": "Which programming paradigm does React follow?",
+        "options": [
+          "Imperative",
+          "Object-oriented",
+          "Declarative",
+          "Functional only"
+        ],
+        "correctAnswer": 2
+      }
+    ]
+  },
+  {
+    "id": "quiz-1-2",
+    "lessonId": "1-1-2",
+    "passingScore": 70,
+    "questions": [
+      {
+        "question": "What is the recommended way to create a new React application?",
+        "options": [
+          "Writing HTML files manually",
+          "Using Create React App",
+          "Copying from existing projects",
+          "Using only CDN links"
+        ],
+        "correctAnswer": 1
+      },
+      {
+        "question": "Which browser extension is essential for React development?",
+        "options": [
+          "Vue DevTools",
+          "Angular DevTools",
+          "React Developer Tools",
+          "Redux DevTools only"
+        ],
+        "correctAnswer": 2
+      }
+    ]
+  },
+  {
+    "id": "quiz-2-1",
+    "lessonId": "2-1-1",
+    "passingScore": 70,
+    "questions": [
+      {
+        "question": "What are the primary colors in traditional color theory?",
+        "options": [
+          "Red, Green, Blue",
+          "Red, Blue, Yellow",
+          "Cyan, Magenta, Yellow",
+          "Red, Orange, Yellow"
+        ],
+        "correctAnswer": 1
+      },
+      {
+        "question": "What is the minimum contrast ratio recommended by WCAG AA for normal text?",
+        "options": [
+          "3:1",
+          "4.5:1",
+          "7:1",
+          "2:1"
+        ],
+        "correctAnswer": 1
+      },
+      {
+        "question": "Which colors are considered 'warm' colors?",
+        "options": [
+          "Blue, Green, Purple",
+          "Red, Orange, Yellow",
+          "Black, White, Gray",
+          "Pink, Teal, Lavender"
+        ],
+        "correctAnswer": 1
+      }
+    ]
+  },
+  {
+    "id": "quiz-3-1",
+    "lessonId": "3-1-2",
+    "passingScore": 70,
+    "questions": [
+      {
+        "question": "What is the main advantage of NumPy arrays over Python lists?",
+        "options": [
+          "They can store more data",
+          "They are faster for numerical operations",
+          "They use less memory always",
+          "They are easier to create"
+        ],
+        "correctAnswer": 1
+      },
+      {
+        "question": "What does broadcasting in NumPy allow you to do?",
+        "options": [
+          "Send data over the network",
+          "Perform operations on arrays with different shapes",
+          "Display arrays on screen",
+          "Convert arrays to lists"
+        ],
+        "correctAnswer": 1
+      }
+    ]
+  },
+  {
+    "id": "quiz-3-2",
+    "lessonId": "3-2-1",
+    "passingScore": 70,
+    "questions": [
+      {
+        "question": "What is a DataFrame in Pandas?",
+        "options": [
+          "A single column of data",
+          "A 2-dimensional labeled data structure",
+          "A visualization tool",
+          "A database connection"
+        ],
+        "correctAnswer": 1
+      },
+      {
+        "question": "Which method would you use to see the first 5 rows of a DataFrame?",
+        "options": [
+          ".top()",
+          ".first()",
+          ".head()",
+          ".show()"
+        ],
+        "correctAnswer": 2
+      },
+      {
+        "question": "How do you handle missing values in a DataFrame?",
+        "options": [
+          "Ignore them",
+          "Use .dropna() or .fillna()",
+          "Convert them to zero",
+          "Remove the entire dataset"
+        ],
+        "correctAnswer": 1
+      }
+    ]
+  }
+]
